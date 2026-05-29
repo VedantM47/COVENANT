@@ -1,0 +1,182 @@
+# Financial taxonomy — canonical fields and their seed labels
+fields:
+  net_income:
+    description: "Net profit/loss after tax for the period"
+    seed_labels:
+      - "Net Income"
+      - "Net Profit"
+      - "Profit After Tax"
+      - "Net Earnings"
+      - "PAT"
+      - "Net profit attributable to shareholders"
+      - "Net loss"
+    typical_sign: "credit"
+    used_by: ["ebitda"]
+
+  interest_expense:
+    description: "Total interest expense including capitalised interest"
+    seed_labels:
+      - "Interest Expense"
+      - "Finance Costs"
+      - "Finance charges"
+      - "Interest on borrowings"
+      - "Interest charges"
+      - "Net interest expense"
+    typical_sign: "debit"
+    used_by: ["ebitda", "icr_denominator"]
+
+  cash_interest_expense:
+    description: "Cash interest expense excluding PIK"
+    seed_labels:
+      - "Cash Interest Expense"
+      - "Cash interest"
+      - "Interest paid"
+    typical_sign: "debit"
+    used_by: ["icr_denominator_cash"]
+
+  tax_expense:
+    description: "Income tax expense"
+    seed_labels:
+      - "Tax Expense"
+      - "Income Tax Expense"
+      - "Corporation tax"
+      - "Income taxes"
+      - "Tax provision"
+    typical_sign: "debit"
+    used_by: ["ebitda"]
+
+  depreciation:
+    description: "Depreciation of fixed assets"
+    seed_labels:
+      - "Depreciation"
+      - "D&A plant machinery"
+      - "Depreciation of property plant and equipment"
+      - "Depreciation expense"
+    typical_sign: "debit"
+    used_by: ["ebitda"]
+
+  amortization:
+    description: "Amortization of intangibles"
+    seed_labels:
+      - "Amortization"
+      - "Amortisation"
+      - "Amortization of intangibles"
+      - "Amortization expense"
+    typical_sign: "debit"
+    used_by: ["ebitda"]
+
+  restructuring_costs:
+    description: "One-time restructuring or reorganisation charges"
+    seed_labels:
+      - "Restructuring"
+      - "Restructuring costs"
+      - "Reorganisation costs"
+      - "One-time restructuring"
+      - "Severance and exit costs"
+      - "Exceptional items"
+      - "Exceptional charges"
+      - "Special charges"
+    typical_sign: "debit"
+    requires_cap_check: true
+    used_by: ["ebitda_addback"]
+
+  noncash_charges:
+    description: "Non-cash charges and losses"
+    seed_labels:
+      - "Non-cash charges"
+      - "Non-cash items"
+      - "Stock compensation"
+      - "Share-based compensation"
+      - "Impairment"
+      - "Write-off"
+      - "Write-down"
+    typical_sign: "debit"
+    used_by: ["ebitda_addback"]
+
+  unrestricted_cash:
+    description: "Cash and equivalents NOT subject to restrictions"
+    seed_labels:
+      - "Cash and Cash Equivalents"
+      - "Cash"
+      - "Unrestricted Cash"
+      - "Cash and equivalents"
+    exclude_labels:
+      - "Restricted Cash"
+      - "Escrow Cash"
+      - "Cash held for legal settlement"
+    typical_sign: "debit"
+    used_by: ["net_debt_offset"]
+
+  restricted_cash:
+    description: "Restricted cash — excluded from net debt offset"
+    seed_labels:
+      - "Restricted Cash"
+      - "Escrow"
+      - "Cash held in escrow"
+    typical_sign: "debit"
+    used_by: []
+
+  debt_senior:
+    description: "Senior secured term loans"
+    seed_labels:
+      - "Senior Term Loan"
+      - "Term Loan A"
+      - "Term Loan B"
+      - "Senior Secured Notes"
+      - "First Lien Term Loan"
+    typical_sign: "credit"
+    used_by: ["total_debt"]
+
+  debt_revolver:
+    description: "Revolving credit facility drawn balance"
+    seed_labels:
+      - "Revolver"
+      - "Revolving Credit Facility"
+      - "Revolving Loan"
+      - "RCF"
+      - "Revolving facility"
+    typical_sign: "credit"
+    used_by: ["total_debt"]
+
+  debt_subordinated:
+    description: "Subordinated debt including junior notes"
+    seed_labels:
+      - "Junior Subordinated Notes"
+      - "Subordinated Notes"
+      - "Junior Notes"
+      - "Mezzanine Notes"
+      - "Mezz Notes"
+      - "Second Lien"
+      - "PIK Notes"
+      - "Payment-in-kind notes"
+    typical_sign: "credit"
+    used_by: ["total_debt"]
+
+  debt_pik:
+    description: "Payment-in-kind debt"
+    seed_labels:
+      - "PIK"
+      - "PIK Notes"
+      - "Payment in Kind"
+      - "PIK Interest"
+    typical_sign: "credit"
+    used_by: ["total_debt"]
+
+  capital_expenditures:
+    description: "Capital expenditures"
+    seed_labels:
+      - "Capital Expenditures"
+      - "Capex"
+      - "Purchase of property plant and equipment"
+      - "PP&E additions"
+    typical_sign: "debit"
+    used_by: ["fccr"]
+
+  fixed_charges:
+    description: "Fixed charges for FCCR"
+    seed_labels:
+      - "Fixed Charges"
+      - "Scheduled debt repayments"
+      - "Mandatory amortization"
+    typical_sign: "debit"
+    used_by: ["fccr_denominator"]

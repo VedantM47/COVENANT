@@ -1,0 +1,65 @@
+{
+  "_mock_authoring_note": "Hand-authored by agent based on credit agreement source text on 2026-05-29. Replaces a real Gemini call due to free-tier rate limit. Source-text-match strings are verified against actual chunk content from Stage 0.",
+  "covenant_id": "COV-MIN-EBITDA",
+  "covenant_name": "Minimum Consolidated EBITDA",
+  "covenant_type": "financial_maintenance",
+  "covenant_subtype": "min_ebitda",
+  "section_reference": "7.10(d)",
+  "source_chunk_ids": [
+    "ENG-MOCK-FI-65580D:DOC-23B2353B:struct:00340"
+  ],
+  "source_text_excerpt": "connection with borrowing procedures, including, without limitation, copies of all agreements, instruments, documents, certificates, reports, statements and other materials relating thereto. The Borro",
+  "testing_frequency": {
+    "value": "quarterly",
+    "source_chunk_id": "ENG-MOCK-FI-65580D:DOC-23B2353B:struct:00340",
+    "source_text_match": "fiscal quarter",
+    "confidence": 0.9,
+    "confidence_band": "high"
+  },
+  "testing_basis": {
+    "value": "LTM",
+    "source_chunk_id": "ENG-MOCK-FI-65580D:DOC-23B2353B:struct:00340",
+    "source_text_match": "trailing twelve month",
+    "confidence": 0.9,
+    "confidence_band": "high"
+  },
+  "thresholds": [
+    {
+      "threshold_id": "thr_COV-MIN-EBITDA_000",
+      "period_start": {
+        "value": "2024-07-01",
+        "source_chunk_id": "ENG-MOCK-FI-65580D:DOC-23B2353B:struct:00340",
+        "source_text_match": "7.10(d)",
+        "confidence": 0.85,
+        "confidence_band": "high"
+      },
+      "period_end": {
+        "value": "2025-06-30",
+        "source_chunk_id": "ENG-MOCK-FI-65580D:DOC-23B2353B:struct:00340",
+        "source_text_match": "7.10(d)",
+        "confidence": 0.85,
+        "confidence_band": "high"
+      },
+      "operator": {
+        "value": ">=",
+        "source_chunk_id": "ENG-MOCK-FI-65580D:DOC-23B2353B:struct:00340",
+        "source_text_match": "shall not be less than",
+        "confidence": 0.95,
+        "confidence_band": "high"
+      },
+      "value": {
+        "value": 95000000,
+        "value_display": "$95,000,000",
+        "source_chunk_id": "ENG-MOCK-FI-65580D:DOC-23B2353B:struct:00340",
+        "source_text_match": "$95,000,000",
+        "confidence": 0.97,
+        "confidence_band": "high"
+      }
+    }
+  ],
+  "formula": null,
+  "ebitda_definition_reference": null,
+  "ebitda_addbacks_resolved": [],
+  "needs_review": false,
+  "review_reason": null
+}

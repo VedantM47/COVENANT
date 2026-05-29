@@ -1,0 +1,35 @@
+# Closed AST grammar for covenant formulas (brief section 6)
+node_kinds:
+  literal:
+    fields: {value: number, unit: "string?"}
+  ref:
+    fields: {term_id: string}
+  binop:
+    op: ["+", "-", "*", "/"]
+    fields: {op: enum, left: node, right: node}
+  min:
+    fields: {args: "[node, ...]"}
+  max:
+    fields: {args: "[node, ...]"}
+  abs:
+    fields: {arg: node}
+  pow:
+    fields: {base: node, exp: node}
+  if:
+    fields: {cond: condition, then: node, else: node}
+  sum_period:
+    fields: {term_id: string, period: "enum[LTM, QTD, YTD]"}
+  cap_pct_of:
+    fields: {value: node, target: ref, pct: number, is_circular: bool}
+  cap_dollar:
+    fields: {value: node, max_dollar: number}
+  cap_greater_of:
+    fields: {value: node, options: "[node, ...]"}
+  cap_lesser_of:
+    fields: {value: node, options: "[node, ...]"}
+
+condition_kinds:
+  cmp: {op: ["<", "<=", "==", ">=", ">"], left: node, right: node}
+  and: {args: "[condition, ...]"}
+  or: {args: "[condition, ...]"}
+  not: {arg: condition}

@@ -1,0 +1,52 @@
+{
+  "borrower": "FirstBank Corp",
+  "testing_date": "2024-12-31",
+  "testing_period": "Q4-2024",
+  "covenant": "Net Leverage Ratio",
+  "threshold": 5.00,
+  "borrower_reported_ratio": 4.23,
+  "borrower_declared_compliant": true,
+  "signed_by": "CFO",
+  "delivery_deadline_days": 45,
+  "ebitda_reported": {
+    "net_income": 49600000,
+    "interest_expense": 32800000,
+    "tax_expense": 8400000,
+    "depreciation": 27200000,
+    "amortization": 4800000,
+    "restructuring_capped": 8225000,
+    "ebitda_total": 131025000,
+    "notes": "Restructuring add-back capped by borrower at fixed $8.225M — INCORRECT. Correct cap is 10% of EBITDA (circular, must solve symbolically)."
+  },
+  "net_debt_reported": {
+    "senior_term_loan_a": 125000000,
+    "revolving_credit_facility": 35000000,
+    "junior_subordinated_notes_excluded": 40000000,
+    "total_indebtedness_used": 160000000,
+    "cash_offset": 25000000,
+    "net_debt": 175000000,
+    "notes": "Borrower excluded $40M junior subordinated notes from Total Indebtedness without contractual support. Borrower applied $25M cash cap correctly."
+  },
+  "errors_present": [
+    {
+      "error_id": "ERR-001",
+      "type": "circular_cap_misapplication",
+      "description": "Restructuring add-back capped at fixed $8,225,000 instead of solving 10% of EBITDA symbolically. Correct capped add-back = $13,577,778.",
+      "impact_on_ebitda": "+5,352,778"
+    },
+    {
+      "error_id": "ERR-002",
+      "type": "unsupported_debt_exclusion",
+      "description": "Junior Subordinated Notes ($40M) excluded from Total Indebtedness. No contractual Excluded Indebtedness carve-out found in credit agreement.",
+      "impact_on_net_debt": "+40,000,000"
+    }
+  ],
+  "independent_recalculation": {
+    "ebitda_correct": 136377778,
+    "net_debt_correct": 193500000,
+    "ratio_correct": 1.418,
+    "ratio_per_poc_scripts": 1.334,
+    "compliant": true,
+    "variance_from_borrower": "2.812x (borrower reported 4.23x, correct is ~1.42x — the borrower understated EBITDA and overstated debt exclusions, both errors partially offset)"
+  }
+}

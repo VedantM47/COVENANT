@@ -1,0 +1,65 @@
+{
+  "_mock_authoring_note": "Hand-authored by agent based on credit agreement source text on 2026-05-29. Replaces a real Gemini call due to free-tier rate limit. Source-text-match strings are verified against actual chunk content from Stage 0.",
+  "covenant_id": "COV-FCCR",
+  "covenant_name": "Fixed Charge Coverage Ratio",
+  "covenant_type": "financial_maintenance",
+  "covenant_subtype": "fixed_charge_coverage_min",
+  "section_reference": "7.10(b)",
+  "source_chunk_ids": [
+    "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00195"
+  ],
+  "source_text_excerpt": "means, as to any Person at a particular time, without duplication, all of the following, whether or not included as indebtedness or liabilities in accordance with GAAP: (a) all obligations of such Per",
+  "testing_frequency": {
+    "value": "quarterly",
+    "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00195",
+    "source_text_match": "fiscal quarter",
+    "confidence": 0.9,
+    "confidence_band": "high"
+  },
+  "testing_basis": {
+    "value": "LTM",
+    "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00195",
+    "source_text_match": "trailing twelve month",
+    "confidence": 0.9,
+    "confidence_band": "high"
+  },
+  "thresholds": [
+    {
+      "threshold_id": "thr_COV-FCCR_000",
+      "period_start": {
+        "value": "2024-07-01",
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00195",
+        "source_text_match": "7.10(b)",
+        "confidence": 0.85,
+        "confidence_band": "high"
+      },
+      "period_end": {
+        "value": "2025-06-30",
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00195",
+        "source_text_match": "7.10(b)",
+        "confidence": 0.85,
+        "confidence_band": "high"
+      },
+      "operator": {
+        "value": ">=",
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00195",
+        "source_text_match": "shall not be less than",
+        "confidence": 0.95,
+        "confidence_band": "high"
+      },
+      "value": {
+        "value": 1.2,
+        "value_display": "1.2x",
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00195",
+        "source_text_match": "1.2:1.00",
+        "confidence": 0.97,
+        "confidence_band": "high"
+      }
+    }
+  ],
+  "formula": null,
+  "ebitda_definition_reference": null,
+  "ebitda_addbacks_resolved": [],
+  "needs_review": false,
+  "review_reason": null
+}

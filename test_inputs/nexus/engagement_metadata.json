@@ -1,0 +1,93 @@
+{
+  "engagement_id": "ENG-2025-002",
+  "engagement_type": "Substantive Covenant Compliance Testing",
+  "audit_firm": "EY (mock)",
+  "applicable_standards": [
+    "PCAOB AS 1105",
+    "ISA 230",
+    "ISA 320",
+    "ISA 505"
+  ],
+  "round": 1,
+  "lender": "LendCo Private Credit Fund II LP",
+  "borrower": "Nexus Industrial Holdings Corp",
+  "borrower_ein": "82-4419073",
+  "borrower_state": "Delaware",
+  "loan_amount_usd": 800000000,
+  "currency": "USD",
+  "testing_date": "2024-12-31",
+  "testing_period": "Q4-2024",
+  "ltm_period": "2024-01-01 to 2024-12-31",
+  "engagement_date": "2025-01-20",
+  "delivery_deadline": "2025-02-14",
+  "auditor_name": "Audit Associate",
+  "senior_reviewer": "Senior Manager",
+  "cfo_name": "Jennifer M. Caldwell",
+  "covenant_ids_to_test": [
+    "COV-NET-LEVERAGE",
+    "COV-FCCR",
+    "COV-MIN-EBITDA"
+  ],
+  "covenants": {
+    "COV-NET-LEVERAGE": {
+      "name": "Net Leverage Ratio",
+      "section": "7.10(a)",
+      "threshold": 5.0,
+      "direction": "max",
+      "formula": "(Total_Debt - min(Cash, Cash_Cap)) / LTM_EBITDA",
+      "amendment_threshold": "5.00x (amended from 4.50x by Amendment No.2 for Q3-2024 through Q2-2025)"
+    },
+    "COV-FCCR": {
+      "name": "Fixed Charge Coverage Ratio",
+      "section": "7.10(b)",
+      "threshold": 1.2,
+      "direction": "min"
+    },
+    "COV-MIN-EBITDA": {
+      "name": "Minimum Consolidated EBITDA",
+      "section": "7.10(c)",
+      "threshold": 80000000,
+      "direction": "min",
+      "note": "Amended from $100M to $80M by Amendment No.2 for Relief Period"
+    }
+  },
+  "input_files": {
+    "credit_agreement": "test_inputs/nexus/credit_agreement_6x_leverage.pdf",
+    "amendment_letter": "test_inputs/nexus/amendment_no2_nexus.pdf",
+    "compliance_certificate": "test_inputs/nexus/compliance_certificate_nexus_q4_2024.pdf",
+    "trial_balance": "test_inputs/nexus/trial_balance_nexus_q4_2024.xlsx",
+    "debt_schedule": "test_inputs/nexus/debt_schedule_nexus_q4_2024.xlsx",
+    "ebitda_bridge": "test_inputs/nexus/ebitda_bridge_nexus_q4_2024.xlsx"
+  },
+  "output_evidence_pack": "output/evidence_pack_ENG-2025-002.pdf",
+  "known_errors": {
+    "ERR-001": {
+      "type": "circular_cap_misapplication",
+      "description": "Borrower adds full $35M restructuring gross without applying 10% circular cap.",
+      "borrower_ebitda": 213700000,
+      "correct_ebitda": 198555556,
+      "variance": -15144444,
+      "direction": "borrower_overstates_ebitda"
+    },
+    "ERR-002": {
+      "type": "unsupported_debt_exclusion",
+      "description": "Mezzanine Notes ($85M) excluded from Total Indebtedness. No Admin Agent consent on file.",
+      "borrower_net_debt": 977400000,
+      "correct_net_debt": 1062400000,
+      "variance": 85000000
+    }
+  },
+  "borrower_reported": {
+    "net_leverage_ratio": 4.574,
+    "compliant": true
+  },
+  "correct_calculation": {
+    "net_leverage_ratio": 5.352,
+    "compliant": false,
+    "variance": 0.778
+  },
+  "breach": true,
+  "breach_covenant": "COV-NET-LEVERAGE",
+  "breach_detail": "Correct Net Leverage Ratio = 5.352x exceeds threshold of 5.00x. Borrower reports 4.574x (compliant) due to two compounding errors.",
+  "notes": "REAL BREACH hidden by ERR-001 (EBITDA overstated) + ERR-002 (Mezz excluded). System must catch both and report breach."
+}

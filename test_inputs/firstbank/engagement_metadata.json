@@ -1,0 +1,96 @@
+{
+  "engagement_id": "ENG-2025-001",
+  "engagement_type": "Substantive Covenant Compliance Testing",
+  "audit_firm": "EY (mock)",
+  "applicable_standards": [
+    "PCAOB AS 1105",
+    "ISA 230",
+    "ISA 320",
+    "ISA 505"
+  ],
+  "round": 1,
+  "lender": "LendCo Private Credit Fund II LP",
+  "borrower": "FirstBank Corp",
+  "borrower_ein": "47-8821034",
+  "borrower_state": "Delaware",
+  "loan_amount_usd": 200000000,
+  "currency": "USD",
+  "testing_date": "2024-12-31",
+  "testing_period": "Q4-2024",
+  "ltm_period": "2024-01-01 to 2024-12-31",
+  "engagement_date": "2025-01-20",
+  "delivery_deadline": "2025-02-14",
+  "auditor_name": "Audit Associate",
+  "senior_reviewer": "Senior Manager",
+  "cfo_name": "Michael R. Hartwell",
+  "covenant_ids_to_test": [
+    "COV-NET-LEVERAGE",
+    "COV-ICR",
+    "COV-FCCR",
+    "COV-MIN-EBITDA"
+  ],
+  "covenants": {
+    "COV-NET-LEVERAGE": {
+      "name": "Net Leverage Ratio",
+      "section": "7.10(a)",
+      "threshold": 5.0,
+      "direction": "max",
+      "formula": "(Total_Debt - min(Cash, Cash_Cap)) / LTM_EBITDA",
+      "amendment_threshold": "5.00x (amended from 4.50x by Amendment No.3 for Q3-2024 through Q2-2025)"
+    },
+    "COV-ICR": {
+      "name": "Interest Coverage Ratio",
+      "section": "7.10(b)",
+      "threshold": 2.5,
+      "direction": "min"
+    },
+    "COV-FCCR": {
+      "name": "Fixed Charge Coverage Ratio",
+      "section": "7.10(c)",
+      "threshold": 1.2,
+      "direction": "min"
+    },
+    "COV-MIN-EBITDA": {
+      "name": "Minimum Consolidated EBITDA",
+      "section": "7.10(d)",
+      "threshold": 95000000,
+      "direction": "min"
+    }
+  },
+  "input_files": {
+    "credit_agreement": "test_inputs/firstbank/credit_agreement_6x_leverage.pdf",
+    "amendment_letter": "test_inputs/firstbank/amendment_no3_firstbank.pdf",
+    "compliance_certificate": "test_inputs/firstbank/compliance_certificate_firstbank_q4_2024.pdf",
+    "trial_balance": "test_inputs/firstbank/trial_balance_firstbank_q4_2024.xlsx",
+    "debt_schedule": "test_inputs/firstbank/debt_schedule_firstbank_q4_2024.xlsx",
+    "ebitda_bridge": "test_inputs/firstbank/ebitda_bridge_firstbank_q4_2024.xlsx"
+  },
+  "output_evidence_pack": "output/evidence_pack_ENG-2025-001.pdf",
+  "known_errors": {
+    "ERR-001": {
+      "type": "circular_cap_misapplication",
+      "description": "Restructuring add-back capped at fixed $8,225,000 instead of solving 10% of EBITDA symbolically.",
+      "borrower_ebitda": 131025000,
+      "correct_ebitda": 136444444,
+      "variance": 5419444
+    },
+    "ERR-002": {
+      "type": "unsupported_debt_exclusion",
+      "description": "Junior Subordinated Notes ($40M) excluded from Total Indebtedness. No Admin Agent consent on file.",
+      "borrower_net_debt": 147500000,
+      "correct_net_debt": 187500000,
+      "variance": 40000000
+    }
+  },
+  "borrower_reported": {
+    "net_leverage_ratio": 4.228,
+    "compliant": true
+  },
+  "correct_calculation": {
+    "net_leverage_ratio": 1.374,
+    "compliant": true,
+    "variance": 2.854
+  },
+  "breach": false,
+  "notes": "Both errors present. Both calculations compliant. Variance of 2.854x requires senior reviewer sign-off."
+}

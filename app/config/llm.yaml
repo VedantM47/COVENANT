@@ -1,0 +1,23 @@
+default:
+  provider: gemini
+  model: gemini-2.5-flash
+  fallback:
+    provider: anthropic
+    model: claude-sonnet-4-20250514
+  retry:
+    attempts: 3
+    backoff_seconds: [2, 5, 15]
+  self_consistency:
+    enabled: true
+    n: 2
+    agreement_threshold: 0.95
+  temperature: 0.0
+  max_output_tokens: 4096
+  json_mode: true
+  timeout_seconds: 60
+
+test:
+  provider: mock_replay
+  model: cached
+  fixture_env_var: MOCK_REPLAY_FIXTURE
+  miss_behaviour: raise

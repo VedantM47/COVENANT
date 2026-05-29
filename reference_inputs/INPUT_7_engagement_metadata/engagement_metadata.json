@@ -1,0 +1,21 @@
+{
+  "engagement_id": "ENG-2025-001",
+  "lender": "LendCo Private Credit Fund II LP",
+  "borrower": "FirstBank Corp",
+  "loan_amount": 200000000,
+  "currency": "USD",
+  "testing_date": "2024-12-31",
+  "testing_period": "Q4-2024",
+  "auditor_name": "Audit Associate",
+  "senior_reviewer": "Senior Manager",
+  "engagement_date": "2025-01-20",
+  "covenant_ids_to_test": ["COV-001"],
+  "credit_agreement_file": "downloads/PDFs/Full_Credit_Agreement_6x_Total_Leverage_Ratio.pdf",
+  "trial_balance_file": "poc_data/trial_balance_firstbank_q4_2024.csv",
+  "compliance_cert_file": "poc_data/compliance_cert_firstbank_q4_2024.json",
+  "output_evidence_pack": "output/evidence_pack_ENG-2025-001.pdf",
+  "applicable_standards": ["PCAOB AS 1105", "ISA 230", "ISA 320", "ISA 505"],
+  "audit_firm": "EY (mock)",
+  "engagement_type": "Substantive Covenant Compliance Testing",
+  "round": 1
+}

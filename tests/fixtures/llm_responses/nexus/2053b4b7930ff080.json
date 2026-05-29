@@ -1,0 +1,135 @@
+{
+  "_mock_authoring_note": "Hand-authored by agent based on credit agreement source text on 2026-05-29. Replaces a real Gemini call due to free-tier rate limit. Source-text-match strings are verified against actual chunk content from Stage 0.",
+  "covenant_id": "COV-NET-LEVERAGE",
+  "covenant_name": "Net Leverage Ratio",
+  "covenant_type": "financial_maintenance",
+  "covenant_subtype": "leverage_ratio_max",
+  "section_reference": "7.10(a)",
+  "source_chunk_ids": [
+    "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00315"
+  ],
+  "source_text_excerpt": "(b) Mandatory. (i) Excess Cash Flow Sweep. Within five Business Days after financial statements have been delivered pursuant to Section 6.01(a) for any fiscal year of the Borrower, the Borrower shall ",
+  "testing_frequency": {
+    "value": "quarterly",
+    "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00315",
+    "source_text_match": "fiscal quarter",
+    "confidence": 0.9,
+    "confidence_band": "high"
+  },
+  "testing_basis": {
+    "value": "LTM",
+    "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00315",
+    "source_text_match": "trailing twelve month",
+    "confidence": 0.9,
+    "confidence_band": "high"
+  },
+  "thresholds": [
+    {
+      "threshold_id": "thr_COV-NET-LEVERAGE_000",
+      "period_start": {
+        "value": "2024-07-01",
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00315",
+        "source_text_match": "7.10(a)",
+        "confidence": 0.85,
+        "confidence_band": "high"
+      },
+      "period_end": {
+        "value": "2025-06-30",
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00315",
+        "source_text_match": "7.10(a)",
+        "confidence": 0.85,
+        "confidence_band": "high"
+      },
+      "operator": {
+        "value": "<=",
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00315",
+        "source_text_match": "shall not exceed",
+        "confidence": 0.95,
+        "confidence_band": "high"
+      },
+      "value": {
+        "value": 5.0,
+        "value_display": "5.0x",
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00315",
+        "source_text_match": "5.0:1.00",
+        "confidence": 0.97,
+        "confidence_band": "high"
+      }
+    }
+  ],
+  "formula": {
+    "kind": "ratio",
+    "numerator": {
+      "expression_ast": {
+        "kind": "binop",
+        "op": "-",
+        "left": {
+          "kind": "ref",
+          "term_id": "term_total_indebtedness"
+        },
+        "right": {
+          "kind": "min",
+          "args": [
+            {
+              "kind": "ref",
+              "term_id": "term_unrestricted_cash"
+            },
+            {
+              "kind": "literal",
+              "value": 25000000,
+              "unit": "USD"
+            }
+          ]
+        }
+      },
+      "expression_human": "Total Indebtedness minus min(Unrestricted Cash, $25,000,000)",
+      "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00315",
+      "source_text_match": "Total Indebtedness"
+    },
+    "denominator": {
+      "expression_ast": {
+        "kind": "ref",
+        "term_id": "term_consolidated_ebitda"
+      },
+      "expression_human": "Consolidated EBITDA (LTM)",
+      "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00315",
+      "source_text_match": "Consolidated EBITDA"
+    }
+  },
+  "ebitda_definition_reference": "term_consolidated_ebitda",
+  "ebitda_addbacks_resolved": [
+    {
+      "field": "interest_expense",
+      "term_id": "term_interest_expense",
+      "cap": null
+    },
+    {
+      "field": "tax_expense",
+      "term_id": "term_tax_expense",
+      "cap": null
+    },
+    {
+      "field": "depreciation",
+      "term_id": "term_depreciation",
+      "cap": null
+    },
+    {
+      "field": "amortization",
+      "term_id": "term_amortization",
+      "cap": null
+    },
+    {
+      "field": "restructuring_costs",
+      "term_id": "term_restructuring_costs",
+      "cap": {
+        "kind": "pct_of_ebitda",
+        "value": 0.1,
+        "is_circular": true,
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00315",
+        "source_text_match": "ten percent (10%) of Consolidated EBITDA"
+      }
+    }
+  ],
+  "needs_review": false,
+  "review_reason": null
+}

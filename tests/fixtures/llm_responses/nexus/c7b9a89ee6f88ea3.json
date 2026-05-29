@@ -1,0 +1,65 @@
+{
+  "_mock_authoring_note": "Hand-authored by agent based on credit agreement source text on 2026-05-29. Replaces a real Gemini call due to free-tier rate limit. Source-text-match strings are verified against actual chunk content from Stage 0.",
+  "covenant_id": "COV-MIN-EBITDA",
+  "covenant_name": "Minimum Consolidated EBITDA",
+  "covenant_type": "financial_maintenance",
+  "covenant_subtype": "min_ebitda",
+  "section_reference": "7.10(c)",
+  "source_chunk_ids": [
+    "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00304"
+  ],
+  "source_text_excerpt": "Section 1.05 Rounding. Any financial ratios required to be maintained by the Borrower pursuant to this Agreement shall be calculated by dividing the appropriate component by the other component, carry",
+  "testing_frequency": {
+    "value": "quarterly",
+    "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00304",
+    "source_text_match": "fiscal quarter",
+    "confidence": 0.9,
+    "confidence_band": "high"
+  },
+  "testing_basis": {
+    "value": "LTM",
+    "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00304",
+    "source_text_match": "trailing twelve month",
+    "confidence": 0.9,
+    "confidence_band": "high"
+  },
+  "thresholds": [
+    {
+      "threshold_id": "thr_COV-MIN-EBITDA_000",
+      "period_start": {
+        "value": "2024-07-01",
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00304",
+        "source_text_match": "7.10(c)",
+        "confidence": 0.85,
+        "confidence_band": "high"
+      },
+      "period_end": {
+        "value": "2025-06-30",
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00304",
+        "source_text_match": "7.10(c)",
+        "confidence": 0.85,
+        "confidence_band": "high"
+      },
+      "operator": {
+        "value": ">=",
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00304",
+        "source_text_match": "shall not be less than",
+        "confidence": 0.95,
+        "confidence_band": "high"
+      },
+      "value": {
+        "value": 80000000,
+        "value_display": "$80,000,000",
+        "source_chunk_id": "ENG-MOCK-NE-AF296B:DOC-638AA3E2:struct:00304",
+        "source_text_match": "$80,000,000",
+        "confidence": 0.97,
+        "confidence_band": "high"
+      }
+    }
+  ],
+  "formula": null,
+  "ebitda_definition_reference": null,
+  "ebitda_addbacks_resolved": [],
+  "needs_review": false,
+  "review_reason": null
+}

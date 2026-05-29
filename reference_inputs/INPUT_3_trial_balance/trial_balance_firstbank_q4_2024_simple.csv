@@ -1,0 +1,12 @@
+Account_Code,Account_Name,Amount,Period,Category,Formula_Component
+1001,Cash and Cash Equivalents,18500000,Q4-2024,Asset,unrestricted_cash
+1002,Restricted Cash,2100000,Q4-2024,Asset,restricted_cash
+2001,Senior Term Loan A,125000000,Q4-2024,Liability,senior_debt
+2002,Revolving Credit Facility,35000000,Q4-2024,Liability,senior_debt
+2003,Junior Subordinated Notes,40000000,Q4-2024,Liability,subordinated_debt
+3001,Interest Expense,32800000,Q4-2024,P&L,interest_expense
+3002,Income Tax Expense,8400000,Q4-2024,P&L,tax_expense
+3003,Depreciation PP&E,27200000,Q4-2024,P&L,depreciation
+3004,Amortization Intangibles,4800000,Q4-2024,P&L,amortization
+3005,Restructuring Charges,13500000,Q4-2024,P&L,restructuring_charges
+4001,Net Income,49600000,Q4-2024,P&L,net_income

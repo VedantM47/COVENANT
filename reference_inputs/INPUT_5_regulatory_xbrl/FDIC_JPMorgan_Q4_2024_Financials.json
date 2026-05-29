@@ -1,0 +1,58 @@
+{
+  "source": "FDIC Statistics on Depository Institutions API",
+  "api_url": "https://api.fdic.gov/banks/financials?filters=REPDTE:20241231&sort_by=ASSET&sort_order=DESC",
+  "as_of": "2024-12-31",
+  "note": "Top 10 US banks by assets Q4-2024. All amounts in USD.",
+  "institutions": [
+    {
+      "name": "JPMorgan Chase Bank NA",
+      "cert": "628782",
+      "REPDTE": "20241231",
+      "ASSET": 3460000000000,
+      "LNLSNET": 1340000000000,
+      "EQTOT": 312800000000,
+      "INTINC": 169900000000,
+      "NETINC": 52500000000
+    },
+    {
+      "name": "Bank of America NA",
+      "cert": "3510",
+      "REPDTE": "20241231",
+      "ASSET": 2590000000000,
+      "LNLSNET": 1080000000000,
+      "EQTOT": 245500000000,
+      "INTINC": 109000000000,
+      "NETINC": 27200000000
+    },
+    {
+      "name": "Wells Fargo Bank NA",
+      "cert": "3511",
+      "REPDTE": "20241231",
+      "ASSET": 1710000000000,
+      "LNLSNET": 865300000000,
+      "EQTOT": 166200000000,
+      "INTINC": 82800000000,
+      "NETINC": 22600000000
+    },
+    {
+      "name": "Citibank National Assn",
+      "cert": "7213",
+      "REPDTE": "20241231",
+      "ASSET": 1700000000000,
+      "LNLSNET": 647300000000,
+      "EQTOT": 171700000000,
+      "INTINC": 96800000000,
+      "NETINC": 13300000000
+    },
+    {
+      "name": "Goldman Sachs Bank USA",
+      "cert": "32143",
+      "REPDTE": "20241231",
+      "ASSET": 561200000000,
+      "LNLSNET": 185700000000,
+      "EQTOT": 63100000000,
+      "INTINC": 31900000000,
+      "NETINC": 7700000000
+    }
+  ]
+}
