@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getEngagement, startPipeline, approveGate, uploadDocuments } from '../api/client'
 import { STAGE_STATUS } from '../components/PdfViewer/colors'
+import { isDemoEngagement } from '../demoData'
 
 const GATES = [
   { id: 'gate_1_rule_review', label: 'Rule Review' },
@@ -18,6 +19,7 @@ export default function EngagementWorkspacePage() {
   const qc = useQueryClient()
   const [approverEmail, setApproverEmail] = useState('auditor@ey.com')
   const [uploadFiles, setUploadFiles] = useState<FileList | null>(null)
+  const isDemo = isDemoEngagement(id)
 
   const { data: eng, isLoading } = useQuery({
     queryKey: ['engagement', id],
@@ -77,12 +79,22 @@ export default function EngagementWorkspacePage() {
           </div>
           <button
             onClick={() => startMutation.mutate()}
-            disabled={startMutation.isPending}
+            disabled={isDemo || startMutation.isPending}
             className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 text-sm"
           >
-            {startMutation.isPending ? 'Starting...' : 'Start Pipeline'}
+            {isDemo ? 'Demo Only' : startMutation.isPending ? 'Starting...' : 'Start Pipeline'}
           </button>
         </div>
+
+        {isDemo && (
+          <section className="mb-6 border border-amber-200 bg-amber-50 rounded-lg p-4">
+            <h2 className="font-semibold mb-1 text-amber-900">Demo engagement</h2>
+            <p className="text-sm text-amber-800">
+              This sample is preloaded in the frontend so the workspace is not empty.
+              Create a real engagement or upload documents to run the backend pipeline.
+            </p>
+          </section>
+        )}
 
         {/* Document upload */}
         <section className="mb-6 border rounded-lg p-4">
@@ -97,7 +109,7 @@ export default function EngagementWorkspacePage() {
             />
             <button
               onClick={() => uploadMutation.mutate()}
-              disabled={!uploadFiles || uploadMutation.isPending}
+              disabled={isDemo || !uploadFiles || uploadMutation.isPending}
               className="px-3 py-1 bg-blue-600 text-white rounded text-sm disabled:opacity-50"
             >
               Upload
@@ -117,7 +129,7 @@ export default function EngagementWorkspacePage() {
             />
             <button
               onClick={() => approveMutation.mutate('gate_1_rule_review')}
-              disabled={approveMutation.isPending}
+              disabled={isDemo || approveMutation.isPending}
               className="px-3 py-1 bg-blue-600 text-white rounded text-sm disabled:opacity-50"
             >
               Approve Gate 1

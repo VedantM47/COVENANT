@@ -12,7 +12,11 @@ from pathlib import Path
 from typing import Any
 
 import pandas as pd
-import pdfplumber
+
+try:
+    import pdfplumber
+except Exception:  # pragma: no cover - optional dependency in test env
+    pdfplumber = None
 
 from app.audit import append_event, EventType
 from app.schemas.stage0 import DocumentIngestRecord, Stage0Output
@@ -49,6 +53,9 @@ def _detect_doc_type(filename: str) -> str:
 
 def _parse_pdf(path: Path) -> tuple[list[dict], int, bool]:
     """Parse PDF with pdfplumber. Returns (chunks, page_count, is_scanned)."""
+    if pdfplumber is None:
+        return [], 0, False
+
     chunks = []
     try:
         with pdfplumber.open(path) as pdf:
@@ -199,19 +206,29 @@ async def ingest_document(
             "filename": filename,
         }, default=str), encoding="utf-8")
 
+        from app.stages.stage0_ingest.preprocessor import preprocess_document_chunks
+
+        cleaned_chunks = preprocess_document_chunks(chunks, document_type=doc_type)
+        raw_chunk_count = len(chunks)
+        record.chunks_produced = len(cleaned_chunks)
+
         # Save chunks with document_type tagged
         chunks_dir = engagement_dir / "chunks"
         chunks_dir.mkdir(exist_ok=True)
         chunk_file = chunks_dir / f"{doc_id}.jsonl"
         with open(chunk_file, "w", encoding="utf-8") as f:
-            for ch in chunks:
+            for ch in cleaned_chunks:
                 ch["document_type"] = doc_type
                 f.write(json.dumps(ch) + "\n")
 
         await append_event(
             engagement_dir, engagement_id, EventType.CHUNKS_PRODUCED,
             actor=actor,
-            payload_summary={"document_id": doc_id, "chunk_count": len(chunks)},
+            payload_summary={
+                "document_id": doc_id,
+                "chunk_count": len(cleaned_chunks),
+                "raw_chunk_count": raw_chunk_count,
+            },
         )
 
     elif suffix in (".xlsx", ".xls", ".csv"):

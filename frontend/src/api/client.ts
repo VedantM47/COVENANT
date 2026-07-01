@@ -3,6 +3,7 @@ import type {
   CreateEngagementRequest, EngagementResponse,
   GateApproveRequest, GateSignOffRequest,
 } from '../types/api'
+import { demoAuditEvents, demoEngagements, getDemoEngagement } from '../demoData'
 
 const api = axios.create({ baseURL: '/api/v1' })
 
@@ -11,10 +12,13 @@ export const createEngagement = (req: CreateEngagementRequest) =>
   api.post<EngagementResponse>('/engagements', req).then(r => r.data)
 
 export const getEngagement = (id: string) =>
+  getDemoEngagement(id) ??
   api.get<EngagementResponse>(`/engagements/${id}`).then(r => r.data)
 
 export const listEngagements = () =>
-  api.get<EngagementResponse[]>('/engagements').then(r => r.data)
+  api.get<EngagementResponse[]>('/engagements')
+    .then(r => (r.data.length > 0 ? r.data : demoEngagements))
+    .catch(() => demoEngagements)
 
 // Pipeline
 export const startPipeline = (id: string) =>
@@ -35,7 +39,9 @@ export const signOffGate = (id: string, gateId: string, req: GateSignOffRequest)
 
 // Audit
 export const getAuditEvents = (id: string) =>
-  api.get(`/engagements/${id}/audit/events`).then(r => r.data)
+  getDemoEngagement(id)
+    ? Promise.resolve(demoAuditEvents)
+    : api.get(`/engagements/${id}/audit/events`).then(r => r.data)
 
 export const verifyChain = (id: string) =>
   api.post(`/engagements/${id}/audit/verify`).then(r => r.data)

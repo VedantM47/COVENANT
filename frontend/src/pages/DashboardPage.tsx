@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { listEngagements } from '../api/client'
 import { STAGE_STATUS } from '../components/PdfViewer/colors'
+import { isDemoEngagement } from '../demoData'
 
 const STATUS_LABELS: Record<string, string> = {
   created: 'Created',
@@ -45,7 +45,14 @@ export default function DashboardPage() {
             >
               <div className="flex justify-between items-start">
                 <div>
-                  <p className="font-semibold">{eng.borrower.name}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-semibold">{eng.borrower.name}</p>
+                    {isDemoEngagement(eng.engagement_id) && (
+                      <span className="text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-800">
+                        Demo
+                      </span>
+                    )}
+                  </div>
                   <p className="text-sm text-gray-500">{eng.engagement_code} · Test date: {eng.test_date}</p>
                 </div>
                 <span

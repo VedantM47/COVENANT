@@ -361,8 +361,11 @@ async def run_stage1(
 
     # ── Load all chunks from Stage 0 ─────────────────────────────────────────
     all_chunks = _load_chunks(engagement_dir)
+    from app.stages.stage0_ingest.preprocessor import preprocess_document_chunks
+
+    all_chunks = preprocess_document_chunks(all_chunks)
     ca_chunks = [c for c in all_chunks if c.get("document_type") == "credit_agreement"]
-    amendment_chunks = _find_amendment_chunks(engagement_dir)
+    amendment_chunks = [c for c in all_chunks if c.get("document_type") == "amendment_letter"]
 
     if not ca_chunks:
         # No credit agreement chunks — emit warning and return empty
