@@ -460,3 +460,172 @@ Frontend
 ```
 
 The most sensitive handoff is between Stage 0/Stage 1 and the LLM extractor. The preprocessor reduces token-heavy noise there, but it stays conservative: if information could affect an audit decision, the cleaner keeps it.
+
+## Extraction Constraints Used In This Project
+
+The main extraction constraints are defined by:
+
+```text
+app/prompts/covenant_extraction_v1.md
+app/prompts/amendment_diff_v1.md
+app/config/ast_grammar.yaml
+app/stages/stage1_extract/llm_extractor.py
+app/stages/stage1_extract/symbolic_validator.py
+app/stages/stage0_ingest/preprocessor.py
+```
+
+The covenant extractor is constrained to:
+
+- Extract only from provided engagement metadata, covenant chunks, resolved defined terms, and schedule chunks.
+- Return structured JSON matching the supplied schema.
+- Avoid invented business logic, invented terms, or invented covenant text.
+- Preserve exact numbers and never paraphrase numeric values.
+- Include a `source_chunk_id` and verbatim `source_text_match` for extracted fields.
+- Use source text that is literally present in the claimed chunk.
+- Set optional fields to `null` when the agreement is silent.
+- Set `needs_review = true` and provide `review_reason` when a required field cannot be confidently determined.
+- Preserve exact threshold values such as `5.00:1.00`, dollar caps such as `$25,000,000`, and percentages such as `10%`.
+- Preserve and normalize dates, especially threshold period start/end dates.
+- Never guess covenant operator polarity. Phrases like `shall not exceed`, `not greater than`, and equivalent max language map to `<=`; phrases like `at least` and `not less than` map to `>=`.
+- Extract every step-down schedule period separately.
+- Treat conditional non-date threshold triggers as review items rather than guessing dates.
+- Reference formula terms by existing `term_id` values from resolved terms.
+- Mark the covenant for review when a used term is not in the resolved term list.
+- Detect caps including percent-of-term caps, dollar caps, and greater-of caps.
+- Mark circular caps as circular so Stage 3 can solve symbolically.
+- Apply override language such as `Notwithstanding the foregoing`.
+
+The amendment extractor is constrained to:
+
+- Read amendment chunks and base agreement context.
+- Extract each amendment change.
+- Identify the section being modified.
+- Identify the change type, such as threshold change, definition change, term addition, or term removal.
+- Preserve exact before/after values and source chunk IDs.
+
+The formula extraction is constrained by a closed AST grammar:
+
+- Allowed formula node kinds include literals, references, binary operations, min/max, abs, pow, if, sum-period, percent caps, dollar caps, greater-of caps, and lesser-of caps.
+- Allowed comparison operators are `<`, `<=`, `==`, `>=`, and `>`.
+- Allowed boolean condition forms are `and`, `or`, and `not`.
+- Formula references must use term IDs instead of free-form account names.
+
+The source verification layer enforces:
+
+- Every `source_text_match` must appear as a substring of the claimed chunk after whitespace normalization.
+- Extraction results with missing or failed source verification are marked for review.
+- Validation checks are emitted as audit events.
+
+The preprocessing layer is constrained to be conservative:
+
+- Remove blank lines, decorative separators, page markers, repeated plain headers, and duplicate whole chunks.
+- Preserve dates, numbers, thresholds, covenant values, borrower/lender context, covenant language, and short audit terms such as `EBITDA`.
+- Store the original text in `raw_text` so traceability is not lost.
+- Keep slightly more text when relevance is uncertain.
+
+## Frontend Tech Stack
+
+The frontend is a Vite React app.
+
+Main technologies:
+
+- React 18 for UI components.
+- TypeScript for typed frontend code.
+- Vite for local dev server and production build.
+- React Router for page routing.
+- TanStack React Query for API fetching, caching, polling, and mutation state.
+- Axios for HTTP requests to the backend.
+- Tailwind CSS for utility-first styling.
+- Zustand is present for lightweight client state, though most current pages use React Query directly.
+- React PDF is installed for PDF viewing support.
+- React Flow is installed for graph/workflow style UI support.
+
+Frontend scripts:
+
+```powershell
+Set-Location frontend
+npm run dev
+npm run build
+npm run preview
+npm run type-check
+```
+
+## How The Frontend Works
+
+The frontend entrypoint is:
+
+```text
+frontend/src/App.tsx
+```
+
+It creates a React Query client and defines routes:
+
+```text
+/                         -> DashboardPage
+/engagements/new          -> NewEngagementPage
+/engagements/:id          -> EngagementWorkspacePage
+/engagements/:id/audit    -> AuditTrailPage
+```
+
+The API wrapper is:
+
+```text
+frontend/src/api/client.ts
+```
+
+It uses Axios with:
+
+```text
+baseURL: /api/v1
+```
+
+During local development, Vite proxies frontend `/api` calls to the backend:
+
+```text
+frontend/vite.config.ts
+```
+
+The proxy target is:
+
+```text
+http://localhost:8000
+```
+
+So the browser talks to the Vite dev server on port `5173`, and Vite forwards API calls to FastAPI on port `8000`.
+
+Page behavior:
+
+- `DashboardPage` calls `listEngagements()` with React Query and refreshes every 5 seconds.
+- If the backend has no engagements, the API client returns the frontend demo engagement from `frontend/src/demoData.ts`.
+- `NewEngagementPage` posts form data to the backend to create a real engagement.
+- `EngagementWorkspacePage` loads one engagement by ID, shows borrower details, pipeline status, gate status, upload controls, and pipeline controls.
+- `AuditTrailPage` loads audit events and lets the user filter by event type/category.
+- The demo engagement is frontend-only, so pipeline start, upload, and approval actions are disabled for it.
+
+Frontend data flow:
+
+```text
+React page
+  -> React Query hook
+  -> frontend/src/api/client.ts
+  -> Vite /api proxy
+  -> FastAPI backend /api/v1
+  -> COVENANT_ROOT engagement files
+  -> response back to React Query cache
+  -> UI re-renders
+```
+
+Frontend files to understand first:
+
+```text
+frontend/src/App.tsx
+frontend/src/api/client.ts
+frontend/src/demoData.ts
+frontend/src/pages/DashboardPage.tsx
+frontend/src/pages/NewEngagementPage.tsx
+frontend/src/pages/EngagementWorkspacePage.tsx
+frontend/src/pages/AuditTrailPage.tsx
+frontend/src/types/api.ts
+frontend/vite.config.ts
+frontend/package.json
+```
